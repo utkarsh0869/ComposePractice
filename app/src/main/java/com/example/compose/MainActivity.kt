@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
          * to build the UI for our screen.
          */
         setContent {
-            MessageCard("Utkarsh Android")
+            MessageCard("Android")
         }
     }
 }
@@ -32,4 +32,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MessageCard(name: String) {
     Text(text = "Hello $name")
+}
+
+/**
+ * The @Preview annotation lets you preview your composable functions within Android Studio without
+ * having to build and install the app to an Android device or emulator. The annotation must be used
+ * on a composable function that does not take in parameters.
+ */
+@Preview
+@Composable
+fun PreviewMessage() {
+    MessageCard("Kotlin")
 }
