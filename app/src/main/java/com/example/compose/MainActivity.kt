@@ -3,6 +3,7 @@ package com.example.compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,23 +25,33 @@ class MainActivity : ComponentActivity() {
          * to build the UI for our screen.
          */
         setContent {
-            MessageCard("Android")
+//            MessageCard(Message("Android", "Jetpack Compose"))
         }
     }
 }
 
+data class Message(val author: String, val body: String)
+
 @Composable
-fun MessageCard(name: String) {
-    Text(text = "Hello $name")
+fun MessageCard(msg: Message) {
+    /**
+     * The Column function lets us arrange elements vertically. Add Column to the MessageCard function.
+     * We can use Row to arrange items horizontally and Box to stack elements.
+     */
+    Column {
+        Text(text = msg.author)
+        Text(text = msg.body)
+    }
 }
 
 /**
- * The @Preview annotation lets you preview your composable functions within Android Studio without
+ * The @Preview annotation lets us preview our composable functions within Android Studio without
  * having to build and install the app to an Android device or emulator. The annotation must be used
  * on a composable function that does not take in parameters.
  */
 @Preview
 @Composable
 fun PreviewMessage() {
-    MessageCard("Kotlin")
+    MessageCard(
+        msg = Message("Utkarsh", "Hey, take a look at Jetpack Compose, its great!") )
 }
