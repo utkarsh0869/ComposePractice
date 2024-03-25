@@ -15,32 +15,16 @@ import com.example.compose.ui.theme.ComposeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /**
+         * The setContent block defines the activity's layout where composable functions are called.
+         * Composable functions can only be called from other composable functions.
+         *
+         * It's a special entry point provided by the Compose framework within our Activity or
+         * Composable class. Its role is to define the root composable function that will be used
+         * to build the UI for our screen.
+         */
         setContent {
-            ComposeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Random")
-                }
-            }
+            Text("Hello World!")
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ComposeTheme {
-        Greeting("Android")
     }
 }
