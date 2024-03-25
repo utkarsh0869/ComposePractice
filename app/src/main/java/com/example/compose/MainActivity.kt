@@ -24,7 +24,12 @@ class MainActivity : ComponentActivity() {
          * to build the UI for our screen.
          */
         setContent {
-            Text("Hello World!")
+            MessageCard("Utkarsh Android")
         }
     }
+}
+
+@Composable
+fun MessageCard(name: String) {
+    Text(text = "Hello $name")
 }
