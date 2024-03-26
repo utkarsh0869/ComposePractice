@@ -25,8 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.ui.theme.ComposeTheme
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +47,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    MessageCard(Message("Android", "Jetpack Compose"))
+//                    MessageCard(Message("Android", "Jetpack Compose"))
+                    Conversation(messages = SampleData.conversationSample)
                 }
             }
 
@@ -69,12 +75,18 @@ fun MessageCard(msg: Message) {
 
         // Add a horizontal space between the image and the column
         Spacer(modifier = Modifier.width(8.dp))
+        
+        // We keep track if the message is expanded or not in this variable
+        var isExpanded by remember {
+            mutableStateOf(false)
+        }
 
         /**
          * The Column function lets us arrange elements vertically. Add Column to the MessageCard function.
          * We can use Row to arrange items horizontally and Box to stack elements.
          */
-        Column {
+        // We toggle the isExpanded variable when we click on this Column
+        Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
             Text(
                 text = msg.author,
                 color = MaterialTheme.colorScheme.secondary,
@@ -84,10 +96,15 @@ fun MessageCard(msg: Message) {
             // Add a vertical space between the author and message texts
             Spacer(modifier = Modifier.height(4.dp))
 
-            Surface(shape = MaterialTheme.shapes.medium, shadowElevation = 1.dp) {
+            Surface(
+                shape = MaterialTheme.shapes.large, shadowElevation = 16.dp
+            ) {
                 Text(
                     text = msg.body,
                     modifier = Modifier.padding(all = 4.dp),
+                    // If the message is expanded, we display all its content otherwise we only
+                    // display the first line
+                    maxLines = if (isExpanded) Int.MAX_VALUE else 1,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -121,7 +138,7 @@ fun PreviewMessage() {
 }
 
 /**
- * 
+ *
  */
 @Composable
 fun Conversation(messages: List<Message>) {
