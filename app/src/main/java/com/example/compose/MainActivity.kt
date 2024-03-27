@@ -25,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.ui.theme.ComposeTheme
 import android.content.res.Configuration
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -81,6 +83,11 @@ fun MessageCard(msg: Message) {
             mutableStateOf(false)
         }
 
+        // surfaceColor will be updated gradually from one color to the other
+        val surfaceColor by animateColorAsState(
+            if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+        )
+
         /**
          * The Column function lets us arrange elements vertically. Add Column to the MessageCard function.
          * We can use Row to arrange items horizontally and Box to stack elements.
@@ -97,7 +104,12 @@ fun MessageCard(msg: Message) {
             Spacer(modifier = Modifier.height(4.dp))
 
             Surface(
-                shape = MaterialTheme.shapes.large, shadowElevation = 16.dp
+                shape = MaterialTheme.shapes.large,
+                shadowElevation = 1.dp,
+                // surfaceColor color will be changing gradually from primary to surface
+                color = surfaceColor,
+                // animateContentSize will change the Surface size gradually
+                modifier = Modifier.animateContentSize().padding(1.dp)
             ) {
                 Text(
                     text = msg.body,
